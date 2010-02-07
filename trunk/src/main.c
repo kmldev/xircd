@@ -54,13 +54,16 @@ int main(int argc, char **argv) {
 		exit(invalid_usage ? EX_USAGE : EX_OK);
 	}
 
+	if(!logging_start()) 
+		exit(EX_TEMPFAIL);
+
 	if(!freadable(config.cfpath)) {
-		xlog(LOG_FATAL, "unable to open configuration file %s: %s",
+		xlog(LOG_ERR, "unable to open configuration file %s: %s",
 			config.cfpath, strerror(errno));
 		exit(EX_NOINPUT);
 	}
 
-	if(!loadcf(config.cfpath)) 
+	if(!read_config(config.cfpath)) 
 		exit(EX_CONFIG);
 
 	xlog(LOG_INFO, "xircd %s starting.");
@@ -106,6 +109,7 @@ int main(int argc, char **argv) {
 
 	close_all_connections();
 	free_config();
+	logging_end();
 
 	exit(EX_OK);
 }

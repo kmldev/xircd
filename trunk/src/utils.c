@@ -23,7 +23,7 @@ char *xstrdup(char *s) {
 	char *r = strdup(s);
 
 	if(!s) {
-		xlog(LOG_FATAL, "unable to duplicate string: %s", strerror(errno));
+		xlog(LOG_ERR, "unable to duplicate string: %s", strerror(errno));
 		exit(EX_TEMPFAIL);
 	}
 
@@ -34,7 +34,7 @@ void *xmalloc(size_t sz) {
 	void *p = malloc(sz);
 
 	if(!p) {
-		xlog(LOG_FATAL, "unable to allocate %lu bytes: %s", sz, strerror(errno));
+		xlog(LOG_ERR, "unable to allocate %lu bytes: %s", sz, strerror(errno));
 		exit(EX_TEMPFAIL);
 	}
 
@@ -45,7 +45,7 @@ void *xrealloc(void *p, size_t sz) {
 	void *r = realloc(p, sz);
 
 	if(!r) {
-		xlog(LOG_FATAL, "unable to resize to %lu bytes", sz);
+		xlog(LOG_ERR, "unable to resize to %lu bytes", sz);
 		exit(EX_TEMPFAIL);
 	}
 
@@ -181,7 +181,7 @@ bool_t become_daemon(void) {
 	int pid = fork();
 
 	if(pid < 0) {
-		xlog(LOG_FATAL, "unable to fork: %s", strerror(errno));
+		xlog(LOG_ERR, "unable to fork: %s", strerror(errno));
 		return(false);
 	}
 

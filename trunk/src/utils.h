@@ -28,8 +28,4 @@ char **gettokens_sep(char *, int *, int (*)(char));
 /* operating system-level functions */
 bool_t become_daemon(void);
 
-/* logging functions */
-enum log_prio_t { LOG_INFO, LOG_WARNING, LOG_FATAL };
-void xlog(enum log_prio_t, char *, ...);
-
 #endif /* !_UTILS_H */
