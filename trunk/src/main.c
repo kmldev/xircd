@@ -15,7 +15,7 @@
 #include "runtime.h"
 
 bool_t quit = false;
-bool_t graceful_exit = true;
+bool_t graceful_quit = true;
 
 int main(int argc, char **argv) {
 	char optch;
@@ -55,7 +55,7 @@ int main(int argc, char **argv) {
 	}
 
 	if(!freadable(config.cfpath)) {
-		log(LOG_FATAL, "unable to open configuration file %s: %s",
+		xlog(LOG_FATAL, "unable to open configuration file %s: %s",
 			config.cfpath, strerror(errno));
 		exit(EX_NOINPUT);
 	}
@@ -63,7 +63,7 @@ int main(int argc, char **argv) {
 	if(!loadcf(config.cfpath)) 
 		exit(EX_CONFIG);
 
-	log(LOG_INFO, "xircd %s starting.");
+	xlog(LOG_INFO, "xircd %s starting.");
 
 	if(!begin_sockets())
 		exit(EX_OSERR);
@@ -71,7 +71,7 @@ int main(int argc, char **argv) {
 	if(!config.debug)
 		become_daemon();
 
-	log(LOG_INFO, "ready to accept connections.");
+	xlog(LOG_INFO, "ready to accept connections.");
 
 	while(!quit) {
 		/* Eat any pending incoming connections. */
@@ -90,9 +90,9 @@ int main(int argc, char **argv) {
 		run_periodic_tasks();
 	}
 
-	log(LOG_INFO, "shutdown request received.");
+	xlog(LOG_INFO, "shutdown request received.");
 
-	if(graceful_exit)
+	if(graceful_quit)
 		time_t start = time(NULL); /* my first ever line of C99 code! */
 
 		issue_all_kills(); /* issue KILL messages to everyone */
