@@ -1,0 +1,1 @@
+xircd aims to be an IRC server with a very modular architecture, allowing for on-the-fly reconfiguration without having to drop user connections.  In addition, users will be able to run certain unprivileged scripts server-side in order to improve their own experience.
